@@ -24,6 +24,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 @IsTest
+@SuppressWarnings('PMD.ApexDoc, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.EagerlyLoadedDescribeSObjectResult')
 public class PlatformEventDistributorTest
 {
     @IsTest

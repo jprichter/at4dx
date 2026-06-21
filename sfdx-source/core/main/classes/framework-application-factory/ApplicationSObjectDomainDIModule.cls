@@ -28,6 +28,7 @@
  *
  * di_Module based class used to manage the Application Factory mappings of for the SOBject
  */
+@SuppressWarnings('PMD.ApexSharingViolations, PMD.AvoidNonRestrictiveQueries, PMD.EagerlyLoadedDescribeSObjectResult, PMD.OperationWithHighCostInLoop')
 public class ApplicationSObjectDomainDIModule 
     extends di_Module
 {

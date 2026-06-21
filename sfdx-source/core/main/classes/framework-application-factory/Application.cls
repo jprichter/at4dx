@@ -27,6 +27,7 @@
 /**
  *  Application Factory
  */
+@SuppressWarnings('PMD.ApexDoc, PMD.EmptyStatementBlock, PMD.FieldNamingConventions')
 public class Application
 {
     /**

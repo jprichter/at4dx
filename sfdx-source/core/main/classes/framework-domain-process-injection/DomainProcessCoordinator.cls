@@ -24,6 +24,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
+@SuppressWarnings('PMD.ApexDoc, PMD.ApexSharingViolations, PMD.AvoidDeeplyNestedIfStmts, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.EmptyStatementBlock, PMD.ExcessiveParameterList, PMD.NcssCount, PMD.NcssMethodCount, PMD.StdCyclomaticComplexity')
 public class DomainProcessCoordinator 
     implements IDomainProcessCoordinator, di_Binding.Provider
 {

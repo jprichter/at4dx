@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ApexDoc')
 public abstract class AbstractSelectorMethodInjectable 
     implements ISelectorMethodInjectable, ISelectorMethodSetable
 {

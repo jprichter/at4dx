@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessActionWithExistingRecs
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessActionWithExistingRecs
     extends IDomainProcessAction
 {

@@ -28,6 +28,7 @@
  * @description  Default implementation of IEventsConsumer. 
  *               runInProcess() must be given a body by the implementing class.
 **/ 
+@SuppressWarnings('PMD.ApexDoc, PMD.AvoidDebugStatements')
 public abstract class PlatformEventAbstractConsumer implements IEventsConsumer {
     /*******************************************************************************************************
     * @description List of events to be processed

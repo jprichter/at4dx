@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessCriteria
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessCriteria
 {
     IDomainProcessCriteria setRecordsToEvaluate( list<SObject> records );

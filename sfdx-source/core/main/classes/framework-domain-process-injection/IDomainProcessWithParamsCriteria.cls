@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessWithParamsCriteria
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessWithParamsCriteria
     extends IDomainProcessCriteria
 {

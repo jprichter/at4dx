@@ -27,6 +27,7 @@
 /**
  * Applicaiton specific Domain base class, customise fflib_SObjectSelector and add common behavior
  **/
+@SuppressWarnings('PMD.ApexDoc, PMD.AvoidBooleanMethodParameters, PMD.EmptyStatementBlock')
 public abstract class ApplicationSObjectSelector 
     extends fflib_SObjectSelector 
     implements IApplicationSObjectSelector

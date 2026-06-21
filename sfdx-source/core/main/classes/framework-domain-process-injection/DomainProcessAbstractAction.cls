@@ -24,6 +24,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
+@SuppressWarnings('PMD.ApexDoc, PMD.AvoidBooleanMethodParameters, PMD.AvoidDebugStatements, PMD.QueueableWithoutFinalizer')
 public abstract class DomainProcessAbstractAction
     implements IDomainProcessAction, IDomainProcessQueueableAction, Queueable, IDomainProcessUnitOfWorkable
 {

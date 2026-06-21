@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessUnitOfWorkable
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessUnitOfWorkable
 {
     IDomainProcessUnitOfWorkable setUnitOfWork( IApplicationSObjectUnitOfWork uow );

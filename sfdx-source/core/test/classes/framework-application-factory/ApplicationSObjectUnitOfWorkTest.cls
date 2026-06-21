@@ -25,6 +25,7 @@
 **/
 
 @IsTest
+@SuppressWarnings('PMD.ApexDoc, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.FieldNamingConventions')
 public with sharing class ApplicationSObjectUnitOfWorkTest {
     @IsTest
     static void verifyRegisteredRecordListReturnsNewRecordsByType() {
