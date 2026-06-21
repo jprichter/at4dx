@@ -103,8 +103,7 @@ public abstract class DomainProcessAbstractAction
         }
         catch (Exception e)
         {
-            system.debug(e);
-            system.debug(e.getStackTraceString());
+            System.debug(LoggingLevel.ERROR, e);
         }
 
         if (getNextQueuableAction() != null)

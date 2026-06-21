@@ -109,7 +109,6 @@ private class PlatformEventDistributorDIModuleTest {
     {
         public override void runInProcess()
         {
-            System.debug('Mock Consumer');
         }
     }
 }

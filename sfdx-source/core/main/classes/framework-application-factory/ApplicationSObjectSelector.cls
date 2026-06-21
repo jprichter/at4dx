@@ -49,7 +49,6 @@ public abstract class ApplicationSObjectSelector
         Set<String> fieldsToIgnore = getStandardSObjectFieldsToIgnore();
         // ensure that all entries are lowercase
         for (String fieldToIgnore : fieldsToIgnore) {
-            // system.debug('fieldToIgnore == ' + fieldToIgnore);
             sObjectIgnoredStandardFields.add(fieldToIgnore.toLowerCase().trim());
         }
         return sObjectIgnoredStandardFields;
@@ -131,7 +130,6 @@ public abstract class ApplicationSObjectSelector
             if ( string.valueOf( field ).startsWith('INVALID FIELD')
                 || ignoredFields.contains( String.valueOf( field ).toLowerCase() ))
             {
-                system.debug( LoggingLevel.FINEST, 'field : ' + field + ' ignored');
                 continue;
             }
 
@@ -140,11 +138,9 @@ public abstract class ApplicationSObjectSelector
             if ( ! fieldDescribe.isCustom() )
             {
                 standardFields.add( field );
-                system.debug( LoggingLevel.FINEST, 'Standard field : ' + field + ' added');
             }
             else
             {
-                system.debug( LoggingLevel.FINEST, 'Custom field : ' + field + ' NOT added');
             }
         }
         return standardFields;
@@ -188,12 +184,10 @@ public abstract class ApplicationSObjectSelector
         }
         catch (System.TypeException te)
         {
-            System.debug(LoggingLevel.ERROR, te);
             throw new ApplicationSObjectSelectorException('Parameter methodClazzType of type \'' + methodClazzType.getName() + '\' does not implement the interface \'' + ISelectorMethodInjectable.class.getName() + '\'');
         }
         catch (System.Exception e)
         {
-            System.debug(LoggingLevel.ERROR, e);
             throw new ApplicationSObjectSelectorException(e);
         }
     }
@@ -224,12 +218,10 @@ public abstract class ApplicationSObjectSelector
         }
         catch (System.TypeException te)
         {
-            System.debug(LoggingLevel.ERROR, te);
             throw new ApplicationSObjectSelectorException('Parameter methodClazzType of type \'' + methodClazzType.getName() + '\' does not implement the interface \'' + ISelectorQueryLocatorMethodInjectable.class.getName() + '\'');
         }
         catch (System.Exception e)
         {
-            System.debug(LoggingLevel.ERROR, e);
             throw new ApplicationSObjectSelectorException(e);
         }
     }

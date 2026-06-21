@@ -35,10 +35,8 @@ public class DomainProcessCoordinator
 
     private Map<DomainProcessConstants.PROCESS_CONTEXT, Map<String, Map<Integer, Map<DomainProcessConstants.PROCESS_TYPE, Map<Decimal, DomainProcessBinding__mdt>>>>> getDomainProcessMap()
     {
-        //system.debug( 'getDomainProcessMap() called');
         if ( this.domainProcessMap.isEmpty() )
         {
-            // system.debug( 'domainProcessMap found to be empty.  Now prime the relevant Domain Logic Injections records');
             primeDomainLogicInjections();
         }
         return this.domainProcessMap;
@@ -49,7 +47,6 @@ public class DomainProcessCoordinator
     @TestVisible
     private static void setMockDomainProcessBindings(list<DomainProcessBinding__mdt> mockDomainProcessBindings)
     {
-        System.debug(mockDomainProcessBindings.size() + ' mock records supplied by test class');
         
         if ( mockDomainProcessBindings != null )
         {
@@ -67,7 +64,6 @@ public class DomainProcessCoordinator
                 }
                 else 
                 {
-                    System.Debug( LoggingLevel.WARN, 'SObject API name could not be descerned from mockDomainProcessBinding == ' + mockDomainProcessBinding);
                     continue;
                 }
 
@@ -275,16 +271,7 @@ public class DomainProcessCoordinator
     public void processDomainLogicInjections(DomainProcessConstants.PROCESS_CONTEXT processContext, String domainProcessToken, Map<Id,SObject> existingRecords, IDomainLogicInjectionsParameterable params, IApplicationSObjectUnitOfWork uow )
     {
         domainProcessToken = domainProcessToken.toLowerCase();
-        system.debug( 'mark 1 -- processContext : ' + processContext +  ' -- domainProcessToken : ' + domainProcessToken);
-        if ( getDomainProcessMap().containsKey( processContext ) )
-        {
-            System.debug('processContext is found and domainProcessToken was ' + (getDomainProcessMap().get( processContext ).containsKey( domainProcessToken ) ? 'found' : 'not found'));
-            System.debug('processContext is found and domainProcessToken was ' + (getDomainProcessMap().get( processContext ).keySet() ) );
-        }
-        else 
-        {
-            System.debug('processContext was not found');
-        }
+        
         if ( getDomainProcessMap().containsKey( processContext )
             && getDomainProcessMap().get( processContext ).containsKey( domainProcessToken ) )
         {
@@ -315,7 +302,6 @@ public class DomainProcessCoordinator
 
             for( Integer sequenceKey : sequenceKeysSorted )
             {
-                system.debug('Starting sequence ' + sequenceKey + ' for processContext ' + processContext + ' and domainProcessToken ' + domainProcessToken);
 
                 // reset the qualifiedRecords
                 qualifiedRecords.clear();
@@ -337,7 +323,6 @@ public class DomainProcessCoordinator
                     for ( Decimal orderOfExecutionKey : orderOfExecutionKeysSorted )
                     {
                         currentDomainProcess = domainProcessesToExecuteMap.get( sequenceKey ).get( DomainProcessConstants.PROCESS_TYPE.CRITERIA ).get( orderOfExecutionKey );
-                        system.debug( 'processing criteria class ' + currentDomainProcess.ClassToInject__c );
 
                         classToInject = Type.forName( currentDomainProcess.ClassToInject__c );
 
@@ -396,7 +381,6 @@ public class DomainProcessCoordinator
                         }
                         catch (Exception e)
                         {
-                            system.debug( e );
 // potentially clear domainProcesses here 
                             throw new ProcessInjectionException( e );
                         }
@@ -404,7 +388,6 @@ public class DomainProcessCoordinator
                         // if all records have been removed from qualification, then exit out of the loop
                         if ( qualifiedRecords.isEmpty() )
                         {
-                            system.debug( 'no qualified records were found');
                             break;
                         }
                     }
@@ -416,14 +399,11 @@ public class DomainProcessCoordinator
                     qualifiedRecords.addAll( this.sObjectDomain.getRecords() );
                 }
 
-                system.debug( logginglevel.FINE, qualifiedRecords );
-                system.debug( logginglevel.FINE, sequenceKey );
 
                 // process the actions last
                 if ( domainProcessesToExecuteMap.get( sequenceKey ).containsKey( DomainProcessConstants.PROCESS_TYPE.ACTION )
                     && ! qualifiedRecords.isempty() )
                 {
-                    System.debug('processing actions');
                     // reset the orderOfExecutionKeysSorted
                     orderOfExecutionKeysSorted.clear();
 
@@ -436,7 +416,6 @@ public class DomainProcessCoordinator
                     for ( Decimal orderOfExecutionKey : orderOfExecutionKeysSorted )
                     {
                         currentDomainProcess = domainProcessesToExecuteMap.get( sequenceKey ).get( DomainProcessConstants.PROCESS_TYPE.ACTION ).get( orderOfExecutionKey );
-                        system.debug( 'processing action class ' + currentDomainProcess.ClassToInject__c );
 
                         classToInject = Type.forName( currentDomainProcess.ClassToInject__c );
 
@@ -482,7 +461,6 @@ public class DomainProcessCoordinator
                         }
                         catch (Exception e)
                         {
-                            system.debug( e );
                             throw new ProcessInjectionException( e );
                         }
                     } // end of for ( Decimal orderOfExecutionKey : orderOfExecutionKeysSorted )

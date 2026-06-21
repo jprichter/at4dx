@@ -77,8 +77,7 @@ public abstract class PlatformEventAbstractConsumer implements IEventsConsumer {
         }
         catch (Exception e)
         {
-            system.debug(e);
-            system.debug(e.getStackTraceString());
+            System.debug(LoggingLevel.ERROR, e);
         }
     }
 

@@ -117,7 +117,6 @@ public class PlatformEventDistributor
                     && subscriptionRecord.EventCategory__c.equalsIgnoreCase( (String)event.get( CATEGORY_FIELD_NAME ) )
                     && subscriptionRecord.Event__c.equalsIgnoreCase( (String)event.get( EVENT_NAME_FIELD_NAME ) ) )
                 {
-                    System.debug('Subscriber Match on Category__c and EventName__c');
                     eventBatchForSubscriber.add( event );
                 }
 
@@ -127,7 +126,6 @@ public class PlatformEventDistributor
                     && platformEventBusAvailableFieldsSet.contains( CATEGORY_FIELD_NAME )
                     && subscriptionRecord.EventCategory__c.equalsIgnoreCase( (String)event.get( CATEGORY_FIELD_NAME ) ) )
                 {
-                    System.debug('Subscriber Match on Category__c');
                     eventBatchForSubscriber.add( event );
                 }
 
@@ -137,7 +135,6 @@ public class PlatformEventDistributor
                     && platformEventBusAvailableFieldsSet.contains( EVENT_NAME_FIELD_NAME )
                     && subscriptionRecord.Event__c.equalsIgnoreCase( (String)event.get( EVENT_NAME_FIELD_NAME ) ) )
                 {
-                    System.debug('Subscriber Match on EventName__c');
                     eventBatchForSubscriber.add( event );
                 }
 
@@ -145,7 +142,6 @@ public class PlatformEventDistributor
                 else if ( platformEventBusDescribe.getName().equalsIgnoreCase( subscriptionRecord.EventBus__c )
                     && MATCHER_RULES.MatchEventBus.name().equalsIgnoreCase( subscriptionRecord.MatcherRule__c ) )
                 {
-                    System.debug('Subscriber Match on EventBus__c');
                     eventBatchForSubscriber.add( event );
                 }
 
@@ -153,24 +149,19 @@ public class PlatformEventDistributor
                 {
                     // This should never happen
                     // TODO: Validate that this never occurs due to the force-di filtering that occurs previous to the manual filtering
-                    System.debug('Subscriber did not match this event');
                 }
             }
 
-            System.debug('eventBatchForSubscriber:\n' + eventBatchForSubscriber);
 
             if ( ! eventBatchForSubscriber.isEmpty() )
             {
                 // Now that the events have been sorted for this specific subscription, distribute them to that subscriber
                 try
                 {
-                    System.debug('Attempting to construct the consumer');
-                    System.debug('SubscriptionRecord.Consumer__c: ' + subscriptionRecord.Consumer__c);
 
                     // Verify that the class exists and that class implements the IEventsConsumer interface
                     consumer = (IEventsConsumer) (Type.forName( subscriptionRecord.Consumer__c ).newInstance());
 
-                    System.debug('Successfully constructed');
 
                     // If the subscriber wishes to be executed asyncronously, assign the job id
                     Id thisJob = subscriptionRecord.Execute_Synchronous__c != null && subscriptionRecord.Execute_Synchronous__c
@@ -185,14 +176,11 @@ public class PlatformEventDistributor
                 }
                 catch (Exception ex)
                 {
-                    System.debug( ex );
-                    System.debug( subscriptionRecord );
-                    System.debug( eventBatchForSubscriber );
+                    System.debug(LoggingLevel.ERROR, ex);
                 }
             }
         }
 
-        System.debug('jobIdList: ' + jobIdList);
     }
 
     private static Set<String> generateStringSetFromFieldValues(List<SObject> sobjList, SObjectField sobjField, Boolean includeBlankValues)
