@@ -24,6 +24,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
+@SuppressWarnings('PMD.ApexCRUDViolation, PMD.ApexSharingViolations, PMD.AvoidNonRestrictiveQueries, PMD.EagerlyLoadedDescribeSObjectResult, PMD.OperationWithHighCostInLoop')
 public class TestDataSupplementDIModule
     extends di_Module
 {

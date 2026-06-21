@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessWithParamsAction
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessWithParamsAction 
     extends IDomainProcessAction
 {

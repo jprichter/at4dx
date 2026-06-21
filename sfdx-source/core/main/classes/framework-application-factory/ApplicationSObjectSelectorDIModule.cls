@@ -28,6 +28,7 @@
  *
  * di_Module based class used to manage the Application Factory mappings of for the SOBject
  */
+@SuppressWarnings('PMD.ApexCRUDViolation, PMD.ApexSharingViolations, PMD.AvoidNonRestrictiveQueries, PMD.EagerlyLoadedDescribeSObjectResult, PMD.OperationWithHighCostInLoop')
 public class ApplicationSObjectSelectorDIModule 
     extends di_Module
 {

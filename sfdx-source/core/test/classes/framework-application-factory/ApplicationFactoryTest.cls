@@ -25,6 +25,7 @@
 **/
 
 @isTest
+@SuppressWarnings('PMD.ApexDoc, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.MethodNamingConventions')
 private class ApplicationFactoryTest
 {
     /********************************************************

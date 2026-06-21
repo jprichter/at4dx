@@ -25,6 +25,7 @@
 **/
 
 @IsTest
+@SuppressWarnings('PMD.ApexDangerousMethods, PMD.ApexDoc, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.FieldNamingConventions, PMD.MethodNamingConventions')
 public class DomainProcessInjectionTest
 {
     public static AccountsTestDomain lastConstructed;

@@ -27,6 +27,7 @@
 /**
  *  ApplicationSObjectUnitOfWork
  */
+@SuppressWarnings('PMD.ApexDoc')
 public class ApplicationSObjectUnitOfWork
     extends fflib_SObjectUnitOfWork
     implements IApplicationSObjectUnitOfWork

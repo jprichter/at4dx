@@ -27,6 +27,7 @@
 /*********************************************************************
  * @description  Interface for the EventsConsumer used by PlatformEventDistributor to inject dynamic subscribers to Platform Events
 **/ 
+@SuppressWarnings('PMD.ApexDoc')
 public interface IEventsConsumer extends Queueable {
     /*******************************************************************************************************
     * @description Adds events to the Events Consumer for use during execution

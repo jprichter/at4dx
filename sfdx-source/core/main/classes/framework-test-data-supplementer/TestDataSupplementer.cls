@@ -25,6 +25,7 @@
 **/
 
 @IsTest
+@SuppressWarnings('PMD.ApexDoc, PMD.OperationWithHighCostInLoop')
 public class TestDataSupplementer
 {
     private static Map<SObjectType, List<ITestDataSupplement>> supplementerMap = new Map<SObjectType, List<ITestDataSupplement>>();

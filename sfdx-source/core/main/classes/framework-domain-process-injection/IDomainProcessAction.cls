@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessAction
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessAction
 {
     IDomainProcessAction setRecordsToActOn( List<SObject> recordsToActOn );

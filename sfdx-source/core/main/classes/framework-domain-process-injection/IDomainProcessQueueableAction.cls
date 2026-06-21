@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessQueueableAction
  */
+@SuppressWarnings('PMD.ApexDoc, PMD.AvoidBooleanMethodParameters')
 public interface IDomainProcessQueueableAction
 {
     IDomainProcessQueueableAction setActionToRunInQueue( boolean isActionToRunInQueue );

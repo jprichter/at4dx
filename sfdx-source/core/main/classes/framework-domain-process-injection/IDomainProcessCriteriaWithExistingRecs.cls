@@ -27,6 +27,7 @@
 /**
  *  IDomainProcessCriteriaWithExistingRecs
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IDomainProcessCriteriaWithExistingRecs
     extends IDomainProcessCriteria
 {

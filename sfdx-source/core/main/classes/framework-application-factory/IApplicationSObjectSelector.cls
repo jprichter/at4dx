@@ -27,6 +27,7 @@
 /**
  *  IApplicationSObjectSelector
  */
+@SuppressWarnings('PMD.ApexDoc')
 public interface IApplicationSObjectSelector 
     extends fflib_ISObjectSelector
 {

@@ -28,6 +28,7 @@
  *
  * di_Module based class used to manage the Application Factory mappings of for services
  */
+@SuppressWarnings('PMD.ApexCRUDViolation, PMD.ApexSharingViolations, PMD.AvoidNonRestrictiveQueries')
 public class ApplicationServiceDIModule 
     extends di_Module
 {
