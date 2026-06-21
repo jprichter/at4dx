@@ -1,4 +1,4 @@
-public abstract class AbstractSelectorQueryLocatorInjectable 
+public abstract class AbstractSelectorQueryLocatorInjectable
     implements ISelectorQueryLocatorMethodInjectable, ISelectorMethodSetable
 {
     private fflib_QueryFactory qf;

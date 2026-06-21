@@ -2,35 +2,35 @@
  * Copyright (c) 2021, John M. Daniel & John Storey
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  *   are permitted provided that the following conditions are met:
  *
- * - Redistributions of source code must retain the above copyright notice, 
+ * - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
- * - Neither the name of the John M. Daniel, nor the names of its contributors 
- *      may be used to endorse or promote products derived from this software without 
+ * - Neither the name of the John M. Daniel, nor the names of its contributors
+ *      may be used to endorse or promote products derived from this software without
  *      specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
- *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
- *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
  *  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  *  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
-@isTest
+@IsTest
 private class ApplicationFactoryTest
 {
     /********************************************************
      *    Selector-related Testing
     ********************************************************/
-    @isTest
+    @IsTest
     private static void Application_Selector_HappyPathTest()
     {
         configureSelectors();
@@ -81,10 +81,10 @@ private class ApplicationFactoryTest
 
         Account acct = new Account(ID = fflib_IDGenerator.generate(Account.SObjectType));
 
-        MockAccountsSelector mock_selector = new MockAccountsSelector();
-        mock_selector.setAccountsToSelect(new List<Account> {acct});
+        MockAccountsSelector mockSelector = new MockAccountsSelector();
+        mockSelector.setAccountsToSelect(new List<Account> {acct});
 
-        Application.Selector.setMock(mock_selector);
+        Application.Selector.setMock(mockSelector);
 
         ITestAccountsSelector sel = (ITestAccountsSelector) Application.Selector.newInstance(Account.SObjectType);
         List<Account> accountList = sel.selectById(new Set<Id> {fflib_IdGenerator.generate(Account.SObjectType)});
@@ -115,8 +115,8 @@ private class ApplicationFactoryTest
 
         List<ApplicationFactory_SelectorBinding__mdt> refinedBindingList = ApplicationSObjectSelectorDIModule.prioritizeBindings(bindingList);
 
-        Assert.areEqual(bindingList.get(1).To__c, refinedBindingList.get(0).To__c);
-        Assert.areEqual(1, refinedBindingList.size());
+        Assert.areEqual(bindingList.get(1).To__c, refinedBindingList.get(0).To__c, 'The higher-priority selector binding should be first');
+        Assert.areEqual(1, refinedBindingList.size(), 'Only the highest-priority selector binding should remain');
     }
 
     /********************************************************
@@ -161,7 +161,7 @@ private class ApplicationFactoryTest
         System.Assert.isTrue(String.isNotBlank(phrase));
         System.Assert.areEqual('Hello Jane Doe!!!', phrase);
     }
-    
+
     @IsTest
     private static void Application_Service_MockServiceTest()
     {
@@ -198,8 +198,8 @@ private class ApplicationFactoryTest
 
         List<ApplicationFactory_ServiceBinding__mdt> refinedBindingList = ApplicationServiceDIModule.prioritizeBindings(bindingList);
 
-        Assert.areEqual(bindingList.get(1).To__c, refinedBindingList.get(0).To__c);
-        Assert.areEqual(1, refinedBindingList.size());
+        Assert.areEqual(bindingList.get(1).To__c, refinedBindingList.get(0).To__c, 'The higher-priority service binding should be first');
+        Assert.areEqual(1, refinedBindingList.size(), 'Only the highest-priority service binding should remain');
     }
 
     private static void configureServices()
@@ -219,8 +219,8 @@ private class ApplicationFactoryTest
     {
         configureDomains();
 
-        ITestOnlyAccounts test_domain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>());
-        System.Assert.isNotNull(test_domain);
+        ITestOnlyAccounts testDomain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>());
+        System.Assert.isNotNull(testDomain);
     }
 
     @IsTest
@@ -228,8 +228,8 @@ private class ApplicationFactoryTest
     {
         configureDomains();
 
-        ITestOnlyAccounts test_domain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>(), Account.SObjectType);
-        System.Assert.isNotNull(test_domain);
+        ITestOnlyAccounts testDomain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>(), Account.SObjectType);
+        System.Assert.isNotNull(testDomain);
     }
 
     @IsTest
@@ -237,11 +237,11 @@ private class ApplicationFactoryTest
     {
         configureDomains();
 
-        TestOnlyAccounts mock_domain = new TestOnlyAccounts(new List<Account>());
+        TestOnlyAccounts mockDomain = new TestOnlyAccounts(new List<Account>());
 
-        Application.Domain.setMock(mock_domain);
-        ITestOnlyAccounts test_domain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>());
-        System.Assert.isNotNull(test_domain);
+        Application.Domain.setMock(mockDomain);
+        ITestOnlyAccounts testDomain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>());
+        System.Assert.isNotNull(testDomain);
     }
 
     @IsTest
@@ -249,11 +249,11 @@ private class ApplicationFactoryTest
     {
         configureDomains();
 
-        TestOnlyAccounts mock_domain = new TestOnlyAccounts(new List<Account>());
+        TestOnlyAccounts mockDomain = new TestOnlyAccounts(new List<Account>());
 
-        Application.Domain.setMock(mock_domain);
-        ITestOnlyAccounts test_domain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>(), Account.SObjectType);
-        System.Assert.isNotNull(test_domain);
+        Application.Domain.setMock(mockDomain);
+        ITestOnlyAccounts testDomain = new TestOnlyAccounts(new List<Account>()).newInstance(new List<Account>(), Account.SObjectType);
+        System.Assert.isNotNull(testDomain);
     }
 
     private static void configureDomains()
@@ -317,37 +317,37 @@ private class ApplicationFactoryTest
     {
         public void dmlInsert(List<SObject> objList)
         {
-            //Intentionally blank
+            return;
         }
 
         public void dmlUpdate(List<SObject> objList)
         {
-            //Intentionally blank
+            return;
         }
 
         public void dmlDelete(List<SObject> objList)
         {
-            //Intentionally blank
+            return;
         }
 
         public void eventPublish(List<SObject> objList)
         {
-            //Intentionally blank
+            return;
         }
 
         public void emptyRecycleBin(List<SObject> objList)
         {
-            //Intentionally blank
+            return;
         }
     }
 
     /****************************************************************************************************************
      *    !!! Classes used for testing only !!!
-     * 
-     *    This IS NOT a typical testing pattern that architects should for general Apex development.  Because 
-     *    libraries and frameworks do not have implementation, by their nature.  This pattern is used to facilitate 
+     *
+     *    This IS NOT a typical testing pattern that architects should for general Apex development.  Because
+     *    libraries and frameworks do not have implementation, by their nature.  This pattern is used to facilitate
      *    the deployment of AT4DX to a development org by providing the necessary code-testing coverage.
-     * 
+     *
      *    Refer to `at4dx-samplecode` for examples of testing metadata that consumes this library.
     ****************************************************************************************************************/
     /*=======================================================
@@ -360,7 +360,7 @@ private class ApplicationFactoryTest
     }
 
     @TestVisible
-    public class TestAccountsSelector 
+    public class TestAccountsSelector
         extends ApplicationSObjectSelector
         implements ITestAccountsSelector
     {
@@ -384,6 +384,8 @@ private class ApplicationFactoryTest
         extends ApplicationSObjectSelector
         implements ITestAccountsSelector
     {
+        private List<Account> mockAccountList = null;
+
         public Schema.sObjectType getSObjectType()
         {
             return Account.SObjectType;
@@ -407,8 +409,6 @@ private class ApplicationFactoryTest
             return mockAccountList;
         }
 
-        private List<Account> mockAccountList = null;
-
         public void setAccountsToSelect(List<Account> mocks)
         {
             mockAccountList = mocks;
@@ -421,7 +421,7 @@ private class ApplicationFactoryTest
         List<Contact> selectById(Set<Id> idSet);
     }
 
-    public class TestContactsSelector 
+    public class TestContactsSelector
         extends ApplicationSObjectSelector
         implements ITestContactsSelector
     {
@@ -467,7 +467,7 @@ private class ApplicationFactoryTest
         public String getHelloWorldPhrase(String name)
         {
             return service().getHelloWorldPhrase(name);
-        } 
+        }
     }
 
     public class TestServiceImpl
@@ -475,8 +475,8 @@ private class ApplicationFactoryTest
     {
         public String getHelloWorldPhrase(String name)
         {
-            String local_name = String.isNotBlank(name) ? name : 'World';
-            return 'Hello ' + local_name + '!!!';
+            String localName = String.isNotBlank(name) ? name : 'World';
+            return 'Hello ' + localName + '!!!';
         }
     }
 
@@ -497,12 +497,12 @@ private class ApplicationFactoryTest
         {
             return (ITestOnlyAccounts) Application.Domain.newInstance(recordIds);
         }
-        
+
         public ITestOnlyAccounts newInstance(List<Account> records)
         {
             return (ITestOnlyAccounts) Application.Domain.newInstance(records);
         }
-        
+
         public ITestOnlyAccounts newInstance(List<Account> records, SObjectType sobjType)
         {
             return (ITestOnlyAccounts) Application.Domain.newInstance(records, sobjType);

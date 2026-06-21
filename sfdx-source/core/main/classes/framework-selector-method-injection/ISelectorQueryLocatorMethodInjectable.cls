@@ -1,4 +1,4 @@
-public interface ISelectorQueryLocatorMethodInjectable 
+public interface ISelectorQueryLocatorMethodInjectable
 {
     Database.QueryLocator selectQueryLocator();
 }

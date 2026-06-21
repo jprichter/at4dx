@@ -1,4 +1,4 @@
-public interface ISelectorMethodParameterable 
+public interface ISelectorMethodParameterable
 {
 
 }
