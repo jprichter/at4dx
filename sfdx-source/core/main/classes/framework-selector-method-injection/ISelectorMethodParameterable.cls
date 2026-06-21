@@ -1,4 +1,5 @@
-public interface ISelectorMethodParameterable 
+@SuppressWarnings('PMD.ApexDoc')
+public interface ISelectorMethodParameterable
 {
 
 }

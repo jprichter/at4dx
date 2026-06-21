@@ -1,4 +1,5 @@
-public abstract class AbstractSelectorQueryLocatorInjectable 
+@SuppressWarnings('PMD.ApexDoc')
+public abstract class AbstractSelectorQueryLocatorInjectable
     implements ISelectorQueryLocatorMethodInjectable, ISelectorMethodSetable
 {
     private fflib_QueryFactory qf;
