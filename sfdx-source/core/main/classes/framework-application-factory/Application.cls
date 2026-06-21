@@ -2,22 +2,22 @@
  * Copyright (c) 2020, John M. Daniel & John Storey
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  *   are permitted provided that the following conditions are met:
  *
- * - Redistributions of source code must retain the above copyright notice, 
+ * - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
- * - Neither the name of the John M. Daniel, nor the names of its contributors 
- *      may be used to endorse or promote products derived from this software without 
+ * - Neither the name of the John M. Daniel, nor the names of its contributors
+ *      may be used to endorse or promote products derived from this software without
  *      specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
- *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
- *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
  *  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  *  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
@@ -73,7 +73,9 @@ public class Application
         {
             // No point creating an empty Domain class, nor can we determine the SObjectType anyway
             if(recordIds == null || recordIds.isEmpty())
+            {
                 throw new DeveloperException('Invalid record Id\'s set');
+            }
 
             // Determine SObjectType
             SObjectType domainSObjectType = new List<Id>(recordIds)[0].getSObjectType();
@@ -82,7 +84,7 @@ public class Application
             {
                 if (recordId.getSobjectType() != domainSObjectType)
                 {
-                    throw new DeveloperException('Unable to determine SObjectType, Set contains Id\'s from different SObject types');    
+                    throw new DeveloperException('Unable to determine SObjectType, Set contains Id\'s from different SObject types');
                 }
             }
 
@@ -93,10 +95,10 @@ public class Application
         /**
          * Helper method to query related records to those provided, for example
          *   if passed a list of Opportunity records and the Account Id field will
-         *   construct internally a list of Account Ids and call the registered 
+         *   construct internally a list of Account Ids and call the registered
          *   Account selector to query the related Account records, e.g.
          *
-         *     List<Account> accounts = 
+         *     List<Account> accounts =
          *        (List<Account>) Application.Selector.selectByRelationship(myOpps, Opportunity.AccountId);
          *
          * @param relatedRecords used to extract the related record Ids, e.g. Opportunty records
@@ -122,7 +124,7 @@ public class Application
             di_Injector.Org.Bindings.byName( IApplicationSObjectSelector.class.getName() )
                                     .bySObject( selectorInstance.sObjectType() )
                                     .replaceBindingWith( selectorInstance );
-        } 
+        }
     }
 
     /**
@@ -156,7 +158,7 @@ public class Application
     /**
      * Class implements a Domain class factory
      **/
-    public class DomainFactory 
+    public class DomainFactory
     {
         private DomainFactory() {  }
 
@@ -171,38 +173,40 @@ public class Application
         public IApplicationSObjectDomain newInstance(Set<Id> recordIds)
         {
             return newInstance( Application.Selector.selectById(recordIds) );
-        }    
+        }
 
         /**
          * Dynamically constructs an instace of the Domain class for the given records
          *   Will return a Mock implementation if one has been provided via setMock
          *
          * @param records A concreate list (e.g. List<Account> vs List<SObject>) of records
-         * @exception Throws an exception if the SObjectType cannot be determined from the list 
+         * @exception Throws an exception if the SObjectType cannot be determined from the list
          *              or the constructor for Domain class was not registered for the SOBjectType
          **/
         public IApplicationSObjectDomain newInstance(List<SObject> records)
         {
             SObjectType domainSObjectType = records.getSObjectType();
             if (domainSObjectType == null)
+            {
                 throw new DeveloperException('Unable to determine SObjectType');
-                
-            Object injector_return = di_Injector.Org.getInstance( IApplicationSObjectDomain.class, domainSObjectType );
+            }
+
+            Object injectorReturn = di_Injector.Org.getInstance( IApplicationSObjectDomain.class, domainSObjectType );
 
             // This would be the case in normal execution context
-            if (injector_return instanceOf fflib_SObjectDomain.IConstructable)
+            if (injectorReturn instanceOf fflib_SObjectDomain.IConstructable)
             {
-                return (IApplicationSObjectDomain) ((fflib_SObjectDomain.IConstructable) injector_return).construct(records);
+                return (IApplicationSObjectDomain) ((fflib_SObjectDomain.IConstructable) injectorReturn).construct(records);
             }
 
             // This would be the case in a unit test with a mocked domain class
-            if (injector_return instanceOf IApplicationSObjectDomain)
+            if (injectorReturn instanceOf IApplicationSObjectDomain)
             {
-                return (IApplicationSObjectDomain) injector_return;
+                return (IApplicationSObjectDomain) injectorReturn;
             }
 
             throw new ApplicationException('Object returned by di_Injector is neither fflib_SObjectDomain.IConststructable nor IApplicationSObjectDomain.');
-        }    
+        }
 
         /**
          * Dynamically constructs an instace of the Domain class for the given records and SObjectType
@@ -218,20 +222,22 @@ public class Application
         public IApplicationSObjectDomain newInstance(List<SObject> records, SObjectType domainSObjectType)
         {
             if(domainSObjectType == null)
+            {
                 throw new DeveloperException('Must specify sObjectType');
+            }
 
-            Object injector_return = di_Injector.Org.getInstance( IApplicationSObjectDomain.class, domainSObjectType );
+            Object injectorReturn = di_Injector.Org.getInstance( IApplicationSObjectDomain.class, domainSObjectType );
 
             // This would be the case in normal execution context
-            if (injector_return instanceOf fflib_SObjectDomain.IConstructable2)
+            if (injectorReturn instanceOf fflib_SObjectDomain.IConstructable2)
             {
-                return (IApplicationSObjectDomain) ((fflib_SObjectDomain.IConstructable2) injector_return).construct(records, domainSObjectType);
+                return (IApplicationSObjectDomain) ((fflib_SObjectDomain.IConstructable2) injectorReturn).construct(records, domainSObjectType);
             }
 
             // This would be the case in a unit test with a mocked domain class
-            if (injector_return instanceOf IApplicationSObjectDomain)
+            if (injectorReturn instanceOf IApplicationSObjectDomain)
             {
-                return (IApplicationSObjectDomain) injector_return;
+                return (IApplicationSObjectDomain) injectorReturn;
             }
 
             throw new ApplicationException('Object returned by di_Injector is neither fflib_SObjectDomain.IConststructable2 nor IApplicationSObjectDomain.');
@@ -254,7 +260,7 @@ public class Application
         private UnitOfWorkFactory() {  }
 
         /**
-         * Returns a new IApplicationSObjectUnitOfWork configured with the 
+         * Returns a new IApplicationSObjectUnitOfWork configured with the
          *   SObjectType list provided by the ApplicationFactory_UnitOfWorkBinding__mdt records
          *
          *  @returns IApplicationSObjectUnitOfWork
@@ -265,7 +271,7 @@ public class Application
         }
 
         /**
-         * Returns a new IApplicationSObjectUnitOfWork configured with the 
+         * Returns a new IApplicationSObjectUnitOfWork configured with the
          *   SObjectType list provided
          *
          *  @param list of SObjectTypes
@@ -277,7 +283,7 @@ public class Application
         }
 
         /**
-         * Returns a new IApplicationSObjectUnitOfWork configured with the 
+         * Returns a new IApplicationSObjectUnitOfWork configured with the
          *   fflib_SObjectUnitOfWork.IDML specified and the SObjectType list
          *   provided by the ApplicationFactory_UnitOfWorkBinding__mdt records
          *
@@ -290,7 +296,7 @@ public class Application
         }
 
         /**
-         * Returns a new IApplicationSObjectUnitOfWork configured with the 
+         * Returns a new IApplicationSObjectUnitOfWork configured with the
          *   fflib_SObjectUnitOfWork.IDML specified and the SObjectType list
          *   provided.
          *
@@ -321,5 +327,5 @@ public class Application
     /**
      * Exception representing a developer coding error, not intended for end user eyes
      **/
-    public class DeveloperException extends Exception { } 
+    public class DeveloperException extends Exception { }
 }
