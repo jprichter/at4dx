@@ -2,22 +2,22 @@
  * Copyright (c) 2020, John M. Daniel & John Storey
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  *   are permitted provided that the following conditions are met:
  *
- * - Redistributions of source code must retain the above copyright notice, 
+ * - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
- * - Neither the name of the John M. Daniel, nor the names of its contributors 
- *      may be used to endorse or promote products derived from this software without 
+ * - Neither the name of the John M. Daniel, nor the names of its contributors
+ *      may be used to endorse or promote products derived from this software without
  *      specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
- *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
- *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
  *  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  *  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
@@ -25,14 +25,21 @@
 **/
 
 @IsTest
+@SuppressWarnings('PMD.ApexDangerousMethods, PMD.ApexDoc, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.FieldNamingConventions, PMD.MethodNamingConventions')
 public class DomainProcessInjectionTest
 {
     public static AccountsTestDomain lastConstructed;
     public static List<Account> processedRecords = new List<Account>();
-    
-    @isTest
-    private static void accountInsertTwoCriteria() 
-    { 
+    public static final ApplicationSObjectUnitOfWork applicationSObjectUOW =
+        new ApplicationSObjectUnitOfWork(
+            new List<Schema.SObjectType>{
+                Account.SObjectType
+            }
+    );
+
+    @IsTest
+    private static void accountInsertTwoCriteria()
+    {
         List<DomainProcessBinding__mdt> config = new List<DomainProcessBinding__mdt> {
             new DomainProcessBinding__mdt(
                 Label = 'DallasAccountCriteria',
@@ -91,7 +98,7 @@ public class DomainProcessInjectionTest
         List<SObject> result = DomainProcessInjectionTest.lastConstructed.getRecords();
 
 		System.Assert.areEqual(4, result.size(), '4 records should have been changed');
-        
+
         for (SObject obj : result) {
             Account acc = (Account) obj;
             if (acc.BillingCity == 'Dallas' ) {
@@ -105,8 +112,8 @@ public class DomainProcessInjectionTest
             }
         }
     }
- 
-    @isTest
+
+    @IsTest
     private static void accountUpdateTwoCriteria() {
         List<DomainProcessBinding__mdt> config = new List<DomainProcessBinding__mdt> {
             new DomainProcessBinding__mdt(
@@ -179,7 +186,7 @@ public class DomainProcessInjectionTest
         }
     }
 
-    @isTest
+    @IsTest
     private static void accountUpdateTwoCriteriaAsync() {
         List<DomainProcessBinding__mdt> config = new List<DomainProcessBinding__mdt> {
             new DomainProcessBinding__mdt(
@@ -258,10 +265,10 @@ public class DomainProcessInjectionTest
             }
         }
     }
-    
-    @isTest
-    private static void DomainProcessInjectionMethodTest() 
-    { 
+
+    @IsTest
+    private static void DomainProcessInjectionMethodTest()
+    {
         List<DomainProcessBinding__mdt> config = new List<DomainProcessBinding__mdt> {
             new DomainProcessBinding__mdt(
                 Label = 'DallasAccountCriteria',
@@ -324,7 +331,7 @@ public class DomainProcessInjectionTest
         List<SObject> result = DomainProcessInjectionTest.lastConstructed.getRecords();
 
 		System.Assert.areEqual(4, result.size(), '4 records should have been changed');
-        
+
         for (SObject obj : result) {
             Account acc = (Account) obj;
             if (acc.BillingCity == 'Dallas' ) {
@@ -339,7 +346,7 @@ public class DomainProcessInjectionTest
         }
     }
 
-    public with sharing class AccountsTestDomain 
+    public with sharing class AccountsTestDomain
     extends ApplicationSObjectDomain
     {
         public AccountsTestDomain(List<Account> records)
@@ -362,7 +369,7 @@ public class DomainProcessInjectionTest
     }
 
     public class AccountIsDallasCriteriaTest implements IDomainProcessCriteria
-    {   
+    {
         private list<Account> records = new list<Account>();
 
         public IDomainProcessCriteria setRecordsToEvaluate(List<SObject> records)
@@ -433,7 +440,7 @@ public class DomainProcessInjectionTest
             }
         }
     }
-    
+
     public class RichmondAccountActionTest extends DomainProcessAbstractAction
     {
         public override void runInProcess()
@@ -449,17 +456,10 @@ public class DomainProcessInjectionTest
         }
     }
 
-    public static final ApplicationSObjectUnitOfWork applicationSObjectUOW= 
-        new ApplicationSObjectUnitOfWork(
-            new List<Schema.SObjectType>{
-                Account.SObjectType
-            }
-    );
-
     @IsTest
     static void verifyDomainProcessCoordinatorConstructorException(){
         try{
-            DomainProcessCoordinator domainProcessCoordinator = new DomainProcessCoordinator(null);
+            new DomainProcessCoordinator(null);
         }catch(DomainProcessCoordinator.ProcessInjectionException ex){
             System.Assert.areEqual(
                 ex.getMessage(),
@@ -481,7 +481,7 @@ public class DomainProcessInjectionTest
                 'Message Does Not Match'
             );
         }
-    }   
+    }
 
     @IsTest
     static void verifyNewInstanceExceptionWithBadParams(){
@@ -496,5 +496,5 @@ public class DomainProcessInjectionTest
             );
         }
     }
-    
+
 }

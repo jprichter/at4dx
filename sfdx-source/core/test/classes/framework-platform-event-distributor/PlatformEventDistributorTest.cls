@@ -2,32 +2,38 @@
  * Copyright (c) 2021, John M. Daniel & John Storey
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  *   are permitted provided that the following conditions are met:
  *
- * - Redistributions of source code must retain the above copyright notice, 
+ * - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
- * - Neither the name of John M. Daniel, nor the names of its contributors 
- *      may be used to endorse or promote products derived from this software without 
+ * - Neither the name of John M. Daniel, nor the names of its contributors
+ *      may be used to endorse or promote products derived from this software without
  *      specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
- *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
- *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
  *  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  *  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 @IsTest
+@SuppressWarnings('PMD.ApexDoc, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.EagerlyLoadedDescribeSObjectResult')
 public class PlatformEventDistributorTest
 {
+    private static PlatformEventConsumerResult matchEventBusAndCategoryAndEventNameResult = new PlatformEventConsumerResult();
+    private static PlatformEventConsumerResult matchEventBusAndCategoryResult = new PlatformEventConsumerResult();
+    private static PlatformEventConsumerResult matchEventBusAndEventNameResult = new PlatformEventConsumerResult();
+    private static PlatformEventConsumerResult matchEventBusResult = new PlatformEventConsumerResult();
+
     @IsTest
-    private static void whenTriggerHandlerInvokedWithEventsWithoutCategoryOrEventNameFieldExceptionThrown() 
+    private static void whenTriggerHandlerInvokedWithEventsWithoutCategoryOrEventNameFieldExceptionThrown()
     {
         try {
             new PlatformEventDistributor().triggerHandler(new List<Account>{new Account()});
@@ -37,7 +43,7 @@ public class PlatformEventDistributorTest
     }
 
     @IsTest
-    private static void whenTriggerHandlerInvokedWithMatchEventBusAndCategoryAndEventName() 
+    private static void whenTriggerHandlerInvokedWithMatchEventBusAndCategoryAndEventName()
     {
         String eventName = 'TestMatchEventBusAndCategoryAndEventName';
 
@@ -78,7 +84,7 @@ public class PlatformEventDistributorTest
     }
 
     @IsTest
-    private static void whenTriggerHandlerInvokedWithMatchEventBusAndCategory() 
+    private static void whenTriggerHandlerInvokedWithMatchEventBusAndCategory()
     {
         String eventName = 'TestMatchEventBusAndCategory';
 
@@ -119,7 +125,7 @@ public class PlatformEventDistributorTest
     }
 
     @IsTest
-    private static void whenTriggerHandlerInvokedWithMatchEventBusAndEventName() 
+    private static void whenTriggerHandlerInvokedWithMatchEventBusAndEventName()
     {
         String eventName = 'TestMatchEventBusAndEventName';
 
@@ -160,7 +166,7 @@ public class PlatformEventDistributorTest
     }
 
     @IsTest
-    private static void whenTriggerHandlerInvokedWithMatchEventBus() 
+    private static void whenTriggerHandlerInvokedWithMatchEventBus()
     {
         String eventName = 'TestMatchEventBus';
 
@@ -201,7 +207,7 @@ public class PlatformEventDistributorTest
     }
 
     @IsTest
-    private static void whenTriggerHandlerInvokedWithMatchEventBusWithAsynchronousSubscriber() 
+    private static void whenTriggerHandlerInvokedWithMatchEventBusWithAsynchronousSubscriber()
     {
         String eventName = 'TestMatchEventBusAsynchronous';
 
@@ -242,7 +248,7 @@ public class PlatformEventDistributorTest
     }
 
     @IsTest
-    private static void whenInvalidConsumerSuppliedExceptionThrown() 
+    private static void whenInvalidConsumerSuppliedExceptionThrown()
     {
         String eventName = 'TestMatchEventBusInvalidConsumer';
 
@@ -321,11 +327,6 @@ public class PlatformEventDistributorTest
         public String testPlatformEventsConsumerData = null;
     }
 
-    private static PlatformEventConsumerResult matchEventBusAndCategoryAndEventNameResult = new PlatformEventConsumerResult();
-    private static PlatformEventConsumerResult matchEventBusAndCategoryResult = new PlatformEventConsumerResult();
-    private static PlatformEventConsumerResult matchEventBusAndEventNameResult = new PlatformEventConsumerResult();
-    private static PlatformEventConsumerResult matchEventBusResult = new PlatformEventConsumerResult();
-
     public class MatchEventBusAndCategoryAndEventNameConsumer
         extends PlatformEventAbstractConsumer
     {
@@ -333,9 +334,8 @@ public class PlatformEventDistributorTest
         {
             matchEventBusAndCategoryAndEventNameResult.wasTestPlatformEventsConsumerCalled = true;
 
-            for (SObject sobj : events) 
+            for (SObject sobj : events)
             {
-                AT4DXMessage__e eventPayload = (AT4DXMessage__e) sobj;
                 matchEventBusAndCategoryAndEventNameResult.testPlatformEventsConsumerData = ((AT4DXMessage__e) sobj).Payload__c;
             }
         }
@@ -348,9 +348,8 @@ public class PlatformEventDistributorTest
         {
             matchEventBusAndCategoryResult.wasTestPlatformEventsConsumerCalled = true;
 
-            for (SObject sobj : events) 
+            for (SObject sobj : events)
             {
-                AT4DXMessage__e eventPayload = (AT4DXMessage__e) sobj;
                 matchEventBusAndCategoryResult.testPlatformEventsConsumerData = ((AT4DXMessage__e) sobj).Payload__c;
             }
         }
@@ -363,9 +362,8 @@ public class PlatformEventDistributorTest
         {
             matchEventBusAndEventNameResult.wasTestPlatformEventsConsumerCalled = true;
 
-            for (SObject sobj : events) 
+            for (SObject sobj : events)
             {
-                AT4DXMessage__e eventPayload = (AT4DXMessage__e) sobj;
                 matchEventBusAndEventNameResult.testPlatformEventsConsumerData = ((AT4DXMessage__e) sobj).Payload__c;
             }
         }
@@ -378,9 +376,8 @@ public class PlatformEventDistributorTest
         {
             matchEventBusResult.wasTestPlatformEventsConsumerCalled = true;
 
-            for (SObject sobj : events) 
+            for (SObject sobj : events)
             {
-                AT4DXMessage__e eventPayload = (AT4DXMessage__e) sobj;
                 matchEventBusResult.testPlatformEventsConsumerData = ((AT4DXMessage__e) sobj).Payload__c;
             }
         }
@@ -393,9 +390,8 @@ public class PlatformEventDistributorTest
         {
             matchEventBusResult.wasTestPlatformEventsConsumerCalled = true;
 
-            for (SObject sobj : events) 
+            for (SObject sobj : events)
             {
-                AT4DXMessage__e eventPayload = (AT4DXMessage__e) sobj;
                 matchEventBusResult.testPlatformEventsConsumerData = ((AT4DXMessage__e) sobj).Payload__c;
             }
         }
@@ -403,12 +399,12 @@ public class PlatformEventDistributorTest
 
     private static Integer getCurrentEventBusSubscriberPosition(SobjectType sobjtype)
     {
-        EventBusSubscriber messageBusSubscriber = [SELECT Id, ExternalId, Name, Type, Topic, Position, Tip, Retries, LastError, Status 
-                                                          FROM EventBusSubscriber 
+        EventBusSubscriber messageBusSubscriber = [SELECT Id, ExternalId, Name, Type, Topic, Position, Tip, Retries, LastError, Status
+                                                          FROM EventBusSubscriber
                                                          WHERE Topic = :sobjtype.getDescribe().getName()
                                                            AND Type = 'ApexTrigger'
                                                          LIMIT 1];
-        
+
         System.Assert.isNotNull(messageBusSubscriber, 'Could not find the ' + sobjtype + ' record');
 
         return messageBusSubscriber.Position;
