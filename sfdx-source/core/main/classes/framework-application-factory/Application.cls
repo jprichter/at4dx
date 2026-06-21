@@ -119,11 +119,9 @@ public class Application
         @TestVisible
         private void setMock(IApplicationSObjectSelector selectorInstance)
         {
-            // system.debug('Application.SelectorFactory.setMock flag 1');
             di_Injector.Org.Bindings.byName( IApplicationSObjectSelector.class.getName() )
                                     .bySObject( selectorInstance.sObjectType() )
                                     .replaceBindingWith( selectorInstance );
-            // system.debug('Application.SelectorFactory.setMock flag 2');
         } 
     }
 
@@ -144,17 +142,14 @@ public class Application
          **/
         public Object newInstance(System.Type serviceInterfaceType)
         {
-            // system.debug('Application.ServiceFactory.newInstance flag 1');
             return di_Injector.Org.getInstance( serviceInterfaceType );
         }
 
         @TestVisible
         private void setMock(System.Type serviceInterfaceType, Object serviceImpl)
         {
-            // system.debug('Application.ServiceFactory.setMock flag 1');
             di_Injector.Org.Bindings.byName( serviceInterfaceType.getName() )
                                     .replaceBindingWith( serviceImpl );
-            // system.debug('Application.ServiceFactory.setMock flag 2');
         }
     }
 

@@ -50,7 +50,6 @@ private class AbstractSelectorQueryLocatorInjectblTest
         
         // Then
         System.Assert.isNotNull(ql, 'Query Locator should not be null');
-        System.debug(ql.getQuery());
         System.Assert.isNotNull(ql.getQuery(), 'Query Locator query should not be null');
     }
 

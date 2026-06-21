@@ -26,7 +26,6 @@ public abstract class AbstractSelectorMethodInjectable
 
     protected ISelectorMethodParameterable getParams()
     {
-        System.debug(LoggingLevel.WARN, 'getParams() method is deprecated.  Please use AbstractSelectorMethodInjectable.getParameters() instead.');
         return this.getParameters();
     }
 }
